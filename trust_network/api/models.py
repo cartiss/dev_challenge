@@ -20,7 +20,7 @@ class PersonTopic(models.Model):
 class TrustRelation(models.Model):
     person = models.ForeignKey('Person', on_delete=models.CASCADE)
     relation_person = models.ForeignKey('Person', on_delete=models.CASCADE, related_name='relation_person')
-    trustLevel = models.IntegerField(
+    trust_level = models.IntegerField(
         validators=[
             MaxValueValidator(10),
             MinValueValidator(1),
