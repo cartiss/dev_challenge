@@ -1,6 +1,5 @@
-## Setup development env
+## Run project
 
-1. Setup
 ```bash
 docker-compose up
 ```
