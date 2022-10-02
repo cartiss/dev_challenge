@@ -9,7 +9,7 @@ class Topic(models.Model):
 class Person(models.Model):
     name = models.CharField(max_length=100, unique=True)
     topics = models.ManyToManyField('Topic', related_name='persons', through='PersonTopic')
-    relations = models.ManyToManyField('Person', through='TrustRelation')
+    relations = models.ManyToManyField("self", through='TrustRelation')
 
 
 class PersonTopic(models.Model):
@@ -19,10 +19,16 @@ class PersonTopic(models.Model):
 
 class TrustRelation(models.Model):
     person = models.ForeignKey('Person', on_delete=models.CASCADE)
-    relation_person = models.ForeignKey('Person', on_delete=models.CASCADE, related_name='relation_person')
+    relation_person = models.ForeignKey('Person', on_delete=models.CASCADE, related_name="back_relations")
     trust_level = models.IntegerField(
         validators=[
             MaxValueValidator(10),
             MinValueValidator(1),
         ]
     )
+
+
+class Message(models.Model):
+    text = models.CharField(max_length=400)
+    sender = models.ForeignKey('Person', on_delete=models.CASCADE, related_name="sent_messages")
+    recipient = models.ForeignKey('Person', related_name="received_messages", on_delete=models.CASCADE)
